@@ -159,7 +159,7 @@ export default function StudentsPage() {
                     <td className="px-6 py-4 text-right">
                       <button 
                         onClick={() => handleDeleteStudent(student.id, student.first_name)}
-                        className="p-2 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg text-slate-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none"
+                        className="p-2 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg text-slate-400 hover:text-red-500 transition-colors outline-none"
                         title="Delete Student"
                       >
                         <Trash2 className="w-4 h-4" />

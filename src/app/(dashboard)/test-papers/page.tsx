@@ -143,7 +143,7 @@ export default function TestPapersPage() {
                         </Link>
                         <button
                           onClick={() => handleDeleteAssessment(a.id, a.title)}
-                          className="p-2 text-slate-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-500 rounded-lg transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                          className="p-2 text-slate-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-500 rounded-lg transition-colors"
                           title="Delete Generated Test"
                         >
                           <Trash2 className="w-4 h-4" />

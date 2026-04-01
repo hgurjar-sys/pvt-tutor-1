@@ -236,7 +236,7 @@ export default function MaterialsPage() {
                              <button onClick={() => setEditingId(null)} className="p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"><X className="w-4 h-4" /></button>
                           </div>
                        ) : (
-                          <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+                          <div className="flex justify-end gap-1">
                              <button onClick={() => startEditing(material)} title="Edit Document Info" className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-lg transition-colors"><Pencil className="w-4 h-4" /></button>
                              <button onClick={() => handleDeleteMaterial(material.id, material.title, material.file_path)} title="Delete Document" className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
                           </div>
