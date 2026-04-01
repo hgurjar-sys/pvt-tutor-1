@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Search, User, MoreVertical, Loader2 } from "lucide-react";
+import { Plus, Search, User, Trash2, Loader2 } from "lucide-react";
 import { supabase } from "@/utils/supabase/client";
 
 interface Student {
@@ -41,6 +41,17 @@ export default function StudentsPage() {
     // We will attempt to fetch students. If table doesn't exist yet, it will just return empty or error quietly.
     fetchStudents();
   }, []);
+
+  const handleDeleteStudent = async (id: string, name: string) => {
+    if (!window.confirm(`Are you sure you want to delete ${name}? This will permanently remove them from your roster.`)) return;
+
+    const { error } = await supabase.from('students').delete().eq('id', id);
+    if (!error) {
+      setStudents(students.filter(s => s.id !== id));
+    } else {
+      alert("Error deleting student. They might have test scores tying them to the Gradebook: " + error.message);
+    }
+  };
 
   const handleAddStudent = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,8 +157,12 @@ export default function StudentsPage() {
                       {student.notes || "No notes"}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button className="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-400 transition-colors opacity-0 group-hover:opacity-100">
-                        <MoreVertical className="w-4 h-4" />
+                      <button 
+                        onClick={() => handleDeleteStudent(student.id, student.first_name)}
+                        className="p-2 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg text-slate-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none"
+                        title="Delete Student"
+                      >
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </td>
                   </tr>

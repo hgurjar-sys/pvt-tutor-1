@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase/client";
-import { Search, FileText, Loader2, BookOpen, Clock, Lock, Unlock } from "lucide-react";
+import { Search, FileText, Loader2, BookOpen, Clock, Lock, Unlock, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 export default function TestPapersPage() {
@@ -29,6 +29,17 @@ export default function TestPapersPage() {
     }
     fetchAssessments();
   }, []);
+
+  const handleDeleteAssessment = async (id: string, title: string) => {
+    if (!window.confirm(`Are you sure you want to permanently delete the test paper "${title}"?`)) return;
+
+    const { error } = await supabase.from('assessments').delete().eq('id', id);
+    if (!error) {
+      setAssessments(assessments.filter(a => a.id !== id));
+    } else {
+      alert("Error deleting test paper: " + error.message);
+    }
+  };
 
   const filteredAssessments = assessments.filter(a => 
     a.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -119,16 +130,25 @@ export default function TestPapersPage() {
                       {a.total_points} pts
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <Link 
-                        href={`/assessments/${a.id}`} 
-                        className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                          a.is_locked 
-                            ? "text-indigo-600 bg-indigo-50 hover:bg-indigo-100 dark:text-indigo-400 dark:bg-indigo-500/10 dark:hover:bg-indigo-500/20"
-                            : "text-amber-700 bg-amber-50 hover:bg-amber-100 dark:text-amber-400 dark:bg-amber-500/10 dark:hover:bg-amber-500/20"
-                        }`}
-                      >
-                        {a.is_locked ? "View Paper / Grade Students" : "Configure Max Points"}
-                      </Link>
+                      <div className="flex justify-end items-center gap-2">
+                        <Link 
+                          href={`/assessments/${a.id}`} 
+                          className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                            a.is_locked 
+                              ? "text-indigo-600 bg-indigo-50 hover:bg-indigo-100 dark:text-indigo-400 dark:bg-indigo-500/10 dark:hover:bg-indigo-500/20"
+                              : "text-amber-700 bg-amber-50 hover:bg-amber-100 dark:text-amber-400 dark:bg-amber-500/10 dark:hover:bg-amber-500/20"
+                          }`}
+                        >
+                          {a.is_locked ? "View / Grade" : "Config Points"}
+                        </Link>
+                        <button
+                          onClick={() => handleDeleteAssessment(a.id, a.title)}
+                          className="p-2 text-slate-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-500 rounded-lg transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                          title="Delete Generated Test"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
