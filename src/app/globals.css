@@ -24,3 +24,67 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* 🖨️ Physical Print Exam Overrides */
+.print-only {
+  display: none;
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  /* Hide digital elements */
+  .print-hide {
+    display: none !important;
+  }
+  
+  /* Display Paper-specific elements */
+  .print-only {
+    display: block !important;
+  }
+  
+  /* Prevent splitting a single question across two physical pages */
+  .page-break-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Force physical document rendering resets */
+  main {
+    margin: 0 !important;
+    padding: 2cm !important; /* 2cm margins simulate word processors */
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+  
+  /* Nuke the sidebars and navigation totally */
+  aside, nav, button {
+    display: none !important;
+  }
+
+  /* Neutralize dark mode card styles */
+  .bg-white, .dark\:bg-slate-900, .bg-slate-50, .dark\:bg-slate-950 {
+    background-color: transparent !important;
+    border-color: #e5e7eb !important;
+  }
+  
+  .text-white, .dark\:text-white {
+    color: black !important;
+  }
+  
+  .text-slate-500, .dark\:text-slate-400 {
+    color: #4b5563 !important;
+  }
+  
+  .border, .border-b, .border-slate-200, .dark\:border-slate-800 {
+    border-color: #000 !important;
+  }
+
+  .shadow-sm, .shadow-md, .shadow-lg {
+    box-shadow: none !important;
+  }
+}
